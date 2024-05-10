@@ -4,19 +4,18 @@ import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import br.com.easyrh.shered.request.address.RequestAddressRegisterJson;
 
 @Service
-public class AddressValidator implements Validator{
+public class AddressValidator implements Validator {
 
-    private final String _regexRuleBrazilianZipCode = "^\\d{5}-\\d{3}$";
-    private final String _regexRuleUSAZipCode = "\\\\d{5}(?:-\\\\d{4})?";
+    private final String regexRuleBrazilianZipCode = "^\\d{5}-\\d{3}$";
+    private final String regexRuleUSAZipCode = "^\\d{5}(?:-\\d{4})?$";
     
-    private final Pattern _patternBrazilianZipCode = Pattern.compile(_regexRuleBrazilianZipCode);
-    private final Pattern _patternUSAZipCode = Pattern.compile(_regexRuleUSAZipCode);
+    private final Pattern patternBrazilianZipCode = Pattern.compile(regexRuleBrazilianZipCode);
+    private final Pattern patternUSAZipCode = Pattern.compile(regexRuleUSAZipCode);
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -25,38 +24,63 @@ public class AddressValidator implements Validator{
 
     @Override
     public void validate(Object target, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "street", "street.empty", "O logradouro deve ser informado");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "number", "number.empty", "O número deve ser informado");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "complement", "complement.empty", "O complemento deve ser informado");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "neighborhood", "neighborhood.empty", "O bairro deve ser informado");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "city", "city.empty", "A cidade deve ser informada");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "state.empty", "O estado deve ser informado");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "zipCode", "zipCode.empty", "O CEP deve ser informado");  
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "country", "country.empty", "O país deve ser informado");
-
         RequestAddressRegisterJson address = (RequestAddressRegisterJson) target;
 
+        if(IsNullOrEmpty(address.number))
+        {
+            errors.rejectValue("number", "number.empty", "O número deve ser informado");
+        }
+
+        if(IsNullOrEmpty(address.complement))
+        {
+            errors.rejectValue("complement", "complement.empty", "O complemento deve ser informado");
+        }
+
+        if(IsNullOrEmpty(address.neighborhood))
+        {
+            errors.rejectValue("neighborhood", "neighborhood.empty", "O bairro deve ser informado");
+        }
+
+        if(IsNullOrEmpty(address.city))
+        {
+            errors.rejectValue("city", "city.empty", "A cidade deve ser informada");
+        }
+
+        if(IsNullOrEmpty(address.state))
+        {
+            errors.rejectValue("state", "state.empty", "O estado deve ser informado");
+        }
+
+        if(IsNullOrEmpty(address.country))
+        {
+            errors.rejectValue("country", "country.empty", "O país deve ser informado");
+        }
+
+        if(IsNullOrEmpty(address.street))
+        {
+            errors.rejectValue("street", "street.empty", "O logradouro deve ser informado");
+        }
+
         String zipCode = address.getZipCode();
-        if (!IsZipCodeValid(zipCode)) 
-            errors.rejectValue("zipCode", "zipCode.invalid", "O Código postal informado é inválido");
+        
+        if (!isZipCodeValid(zipCode)) 
+            errors.rejectValue("zipCode", "zipCode.invalid", "O Código postal informado é inválido");
     }
 
-    private boolean IsZipCodeValid(String zipCode) 
+    private boolean isZipCodeValid(String zipCode) {
+        return isBrazilianZipCodeValid(zipCode) || isUSAZipCodeValid(zipCode);
+    }
+
+    private boolean isUSAZipCodeValid(String zipCode) {
+        return patternUSAZipCode.matcher(zipCode).matches();
+    }
+
+    private boolean isBrazilianZipCodeValid(String zipCode) {
+        return patternBrazilianZipCode.matcher(zipCode).matches();
+    }
+
+    private boolean IsNullOrEmpty(Object obj)
     {
-        if (IsBrazilianZipCodeValid(zipCode) || IsUSAZipCodeValid(zipCode)) 
-            return true;
-
-        return false;
+        return obj == null || obj.toString().isBlank();
     }
-
-    private boolean IsUSAZipCodeValid(String zipCode) 
-    {
-        return _patternUSAZipCode.matcher(zipCode).matches();
-    }
-
-    private boolean IsBrazilianZipCodeValid(String zipCode) 
-    {
-        return _patternBrazilianZipCode.matcher(zipCode).matches();
-    }
-
 }

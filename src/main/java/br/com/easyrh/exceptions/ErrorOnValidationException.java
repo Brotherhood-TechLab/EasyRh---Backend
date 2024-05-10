@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ErrorOnValidationException extends RuntimeException{
 
+    private static final long serialVersionUID = 1L;
+
     public ErrorOnValidationException(String message) {
         super(message);
     }
@@ -16,7 +18,4 @@ public class ErrorOnValidationException extends RuntimeException{
     {
         super(String.join("\n", messages));
     }
-    
-    private static final long serialVersionUID = 1L;
-
 }

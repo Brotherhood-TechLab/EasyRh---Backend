@@ -13,18 +13,14 @@ public class PhoneNumberValidator implements IPhoneNumberValidator{
     public boolean IsValid(String phoneNumber) 
     {
         if(IsNullOrEmpty(phoneNumber)) 
-        {
             return false;
-        }
         else
-        {
             return IsMatchPattern(phoneNumber); 
-        }
     }
 
     private boolean IsNullOrEmpty(String phoneNumber) 
     {
-        return (phoneNumber == null || phoneNumber.isEmpty());
+        return (phoneNumber == null || phoneNumber.isBlank());
     }
 
     public boolean IsMatchPattern(String phoneNumber) 

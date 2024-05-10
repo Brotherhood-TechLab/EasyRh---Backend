@@ -10,21 +10,22 @@ import br.com.easyrh.application.Utils.Validators.address.AddressValidator;
 import br.com.easyrh.application.Utils.Validators.cnpj.ICnpjValidator;
 import br.com.easyrh.application.Utils.Validators.email.IEmailValidator;
 import br.com.easyrh.application.Utils.Validators.phoneNumber.IPhoneNumberValidator;
+import br.com.easyrh.shered.request.address.RequestAddressRegisterJson;
 import br.com.easyrh.shered.request.enterprise.RequestEnterpriseRegisterJson;
 
 @Service
-public class RegisterEnterpriseValidator implements Validator{
+public class RegisterEnterpriseValidator implements Validator {
 
-    @Autowired
     private final IPhoneNumberValidator _phoneNumberValidator;
     private final ICnpjValidator _cnpjValidator;
     private final IEmailValidator _emailValidator;
     private final AddressValidator _addressValidator;
 
+    @Autowired
     public RegisterEnterpriseValidator(IPhoneNumberValidator phoneNumberValidator,
-     ICnpjValidator cnpjValidator,
-     IEmailValidator emailValidator,
-     AddressValidator addressValidator) {
+                                       ICnpjValidator cnpjValidator,
+                                       IEmailValidator emailValidator,
+                                       AddressValidator addressValidator) {
         this._phoneNumberValidator = phoneNumberValidator;
         this._cnpjValidator = cnpjValidator;
         this._emailValidator = emailValidator;
@@ -32,7 +33,6 @@ public class RegisterEnterpriseValidator implements Validator{
     }
 
     @Override
-    //Esse metodo verifica se o objeto implementa a interface
     public boolean supports(Class<?> clazz) {
         return RequestEnterpriseRegisterJson.class.equals(clazz);
     }
@@ -43,19 +43,20 @@ public class RegisterEnterpriseValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cnpj", "cnpj.empty", "O CNPJ da empresa deve ser preenchido");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "phoneNumber.empty", "O número de telefone da empresa deve ser preenchido");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty", "O email da empresa deve ser preenchido");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "idNumber", "idNumber.empty", "A matricula da empresa deve ser preenchida");
 
-        RequestEnterpriseRegisterJson enterprise = (RequestEnterpriseRegisterJson) target; //converte o objeto em RequestEnterpriseRegisterJson
+        RequestEnterpriseRegisterJson enterprise = (RequestEnterpriseRegisterJson) target;
+        RequestAddressRegisterJson address = enterprise.getAddress();
 
-        if (!_phoneNumberValidator.IsValid(enterprise.getPhoneNumber())) 
+        if (!_phoneNumberValidator.IsValid(enterprise.getPhoneNumber()))
             errors.rejectValue("phoneNumber", "phoneNumber.invalid", "O número de telefone informado é inválido");
 
-        if (!_cnpjValidator.IsValid(enterprise.getCnpj())) 
+        if (!_cnpjValidator.IsValid(enterprise.getCnpj()))
             errors.rejectValue("cnpj", "cnpj.invalid", "O CNPJ informado é inválido");
 
         if(!_emailValidator.IsValid(enterprise.getEmail()))
             errors.rejectValue("email", "email.invalid", "O email informado é inválido");
 
-        _addressValidator.validate(enterprise.getAddress(), errors);
+        _addressValidator.validate(address, errors);
     }
-
 }
