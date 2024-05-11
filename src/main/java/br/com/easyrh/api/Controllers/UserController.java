@@ -28,4 +28,5 @@ public class UserController
         var result = _registerUserUseCase.Execute(request);
         return ResponseEntity.ok(result);
     }
+    // criar endpoint para mudar a informações do usuario
 }
