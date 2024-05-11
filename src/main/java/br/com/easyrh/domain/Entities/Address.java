@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -47,9 +48,12 @@ public class Address extends ClassBase
     @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Enterprise Enterprise;
 
-    @OneToOne(mappedBy = "Address", fetch = FetchType.LAZY)
-    private Person Person;
-    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Address() { }
+
     public Address(RequestAddressRegisterJson address) {
         // Chama o construtor da classe pai (BaseEntity) e configura suas propriedades
         super.setActive(true);

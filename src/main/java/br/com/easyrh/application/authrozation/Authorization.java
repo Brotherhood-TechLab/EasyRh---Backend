@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.easyrh.infrastructure.repository.personRepository.IPersonRepository;
+import br.com.easyrh.infrastructure.repository.userRepository.IUserRepository;
+
 
 @Service
-public class Authorization implements UserDetailsService{
-
+public class Authorization implements UserDetailsService
+{
     @Autowired
-    private IPersonRepository _repository;
+    private IUserRepository _repository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return _repository.findByEmail(email);

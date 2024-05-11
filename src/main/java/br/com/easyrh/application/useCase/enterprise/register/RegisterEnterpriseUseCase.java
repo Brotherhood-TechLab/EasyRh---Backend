@@ -1,18 +1,17 @@
 package br.com.easyrh.application.useCase.enterprise.register;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
+import static br.com.easyrh.application.Utils.erroMessageOnValidation.ErrorMessage.GetErrorMessage;
 import br.com.easyrh.domain.Entities.Enterprise;
 import br.com.easyrh.exceptions.ErrorOnValidationException;
 import br.com.easyrh.infrastructure.repository.enterpriseRepository.IEnterpriseRepository;
 import br.com.easyrh.shered.request.enterprise.RequestEnterpriseRegisterJson;
-import br.com.easyrh.shered.response.employee.ResponseEnterpriseRegisterJson;
+import br.com.easyrh.shered.response.enterprise.ResponseEnterpriseRegisterJson;
+
 
 @Service //Informa que a classe é um Serviço que será injetada pelo Spring
 public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase 
@@ -58,15 +57,6 @@ public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase
         _registerEnterpriseValidator.validate(enterprise, errors);
 
         return errors;
-    }
-
-    private List<String> GetErrorMessage(Errors error)
-    {
-        var message = error.getAllErrors().stream()
-        .map(ex -> ex.getDefaultMessage())
-        .collect(Collectors.toList());
-
-        return message;
     }
 
     private Enterprise SaveEnterprise(RequestEnterpriseRegisterJson request)

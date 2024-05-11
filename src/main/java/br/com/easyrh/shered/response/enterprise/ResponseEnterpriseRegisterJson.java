@@ -1,4 +1,4 @@
-package br.com.easyrh.shered.response.employee;
+package br.com.easyrh.shered.response.enterprise;
 
 import java.util.Objects;
 

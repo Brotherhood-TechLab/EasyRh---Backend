@@ -42,8 +42,8 @@ public class Enterprise extends ClassBase implements Serializable
     @Column(name="logo_image")
     private String LogoImage;
 
-    @OneToOne(mappedBy = "enterprise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Person Person;
+    @OneToOne(mappedBy = "Enterprise", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private User User;
 
     public Enterprise(RequestEnterpriseRegisterJson enterprise)
     {

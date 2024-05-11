@@ -2,7 +2,6 @@ package br.com.easyrh.domain.Entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -12,7 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.easyrh.domain.Entities.Base.ClassBase;
 import br.com.easyrh.domain.Enum.Role;
-import br.com.easyrh.shered.request.Person.RequestPersonRegisterJson;
+import br.com.easyrh.shered.request.user.RequestUserRegisterJson;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,8 +21,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "persons")
-public class Person extends ClassBase implements Serializable, UserDetails
+@Table(name = "user")
+public class User extends ClassBase implements Serializable, UserDetails
 {
     private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class Person extends ClassBase implements Serializable, UserDetails
     private String Cpf;
 
     @Column(name="date_birth", nullable = false)
-    private Date Dateofbirth;
+    private String Dateofbirth;
 
     @Column(name="gender", nullable = false, length = 1)
     private String Gender;
@@ -47,29 +47,31 @@ public class Person extends ClassBase implements Serializable, UserDetails
     @Column(name="phoneNumber", nullable = false, length = 16)
     private String Phone;
 
-    private Role Role;
-
     // @OneToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "payment_id")
     // private Payment Payment;
 
-    // @OneToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "role_id")
-    // private Role Role;
+    @Column(name="role")
+    private Role Role;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id")
     private Address Address;
     
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enterprise_id")
-    private Enterprise enterprise;
+    @JoinColumn(name = "enterprise_id", nullable = true)
+    private Enterprise Enterprise;
+    
+    public User(RequestUserRegisterJson user) 
+    {
+        super(); 
+        
+        BeanUtils.copyProperties(user, this);
 
-    public Person(RequestPersonRegisterJson person) {
-        BeanUtils.copyProperties(person, this);
+        this.Address = new Address(user.getAddress());
     }
 
-    public Person() {
+    public User() {
     }
 
     public String getName() {
@@ -104,11 +106,11 @@ public class Person extends ClassBase implements Serializable, UserDetails
         this.Cpf = Cpf;
     }
 
-    public Date getDateofbirth() {
+    public String getDateofbirth() {
         return Dateofbirth;
     }
 
-    public void setDateofbirth(Date Dateofbirth) {
+    public void setDateofbirth(String Dateofbirth) {
         this.Dateofbirth = Dateofbirth;
     }
 
@@ -128,6 +130,14 @@ public class Person extends ClassBase implements Serializable, UserDetails
         this.Phone = Phone;
     }
 
+    public Role getRole() {
+        return Role;
+    }
+
+    public void setRole(Role role) {
+        Role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //Fazendo a validação do role
@@ -142,21 +152,21 @@ public class Person extends ClassBase implements Serializable, UserDetails
 
     @Override
     public boolean isAccountNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 }
