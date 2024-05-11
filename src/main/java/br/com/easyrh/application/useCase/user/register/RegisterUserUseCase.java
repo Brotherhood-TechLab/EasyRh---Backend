@@ -42,7 +42,7 @@ public class RegisterUserUseCase implements IRegisterUserUseCase
 
         SaveUser(request);
 
-        return BuildResponse(request.getName(), request.getPassword());
+        return BuildResponse(request.getName(), request.getPassword(), request.getEmail(), GetRole(request));
     }
 
     private void ValidateRequest(RequestUserRegisterJson request) 
@@ -94,25 +94,32 @@ public class RegisterUserUseCase implements IRegisterUserUseCase
     {
         var userEntity = new User(request);
 
-        userEntity.setRole(request.getRole() == true ? Role.ADMIN : Role.USER);
+        userEntity.setRole(GetRole(request));
         
         userEntity.setPassword(GetEncryptedPassword(request.getPassword()));
 
         return userEntity;
     }
 
-    private ResponseUserRegisterJson BuildResponse(String name, String password)
+    private ResponseUserRegisterJson BuildResponse(String name, String password, String email, Role role)
     {
         return new ResponseUserRegisterJson
         (
             name,
-            GetEncryptedPassword(password)
+            GetEncryptedPassword(password),
+            email,
+            role
         );
     }
 
     private String GetEncryptedPassword(String password)
     {
         return _passwordEncrypter.Encrypt(password);
+    }
+
+    private Role GetRole(RequestUserRegisterJson request)
+    {
+        return request.getRole() == true ? Role.ADMIN : Role.USER;
     }
 
 }

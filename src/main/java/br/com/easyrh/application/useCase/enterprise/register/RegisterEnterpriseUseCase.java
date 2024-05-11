@@ -79,7 +79,8 @@ public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase
     {
         return new ResponseEnterpriseRegisterJson(
             response.getName(),
-            "Bearer iusdhifuy87y89723yhfusdhigfuh8937y493hfiujhgfkiujdshgyh4398htiogjnkj");
+            response.getGuid_Identifier()
+        );
     }
 
 }

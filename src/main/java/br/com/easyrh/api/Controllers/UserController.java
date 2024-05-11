@@ -2,6 +2,7 @@ package br.com.easyrh.api.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +23,9 @@ public class UserController
     }
 
     @RequestMapping("/register")
-    public ResponseEntity Register(@RequestBody RequestUserRegisterJson request)
+    public ResponseEntity Register(@RequestBody @Validated RequestUserRegisterJson request)
     {
-        _registerUserUseCase.Execute(request);
-        return ResponseEntity.ok().build();
+        var result = _registerUserUseCase.Execute(request);
+        return ResponseEntity.ok(result);
     }
 }

@@ -5,11 +5,11 @@ import java.util.Objects;
 public class ResponseEnterpriseRegisterJson {
 
     public String name;
-    public String accessToken;
+    public String enterpriseIdentifier;
     
-    public ResponseEnterpriseRegisterJson(String name, String accessToken) {
+    public ResponseEnterpriseRegisterJson(String name, String identifier) {
         this.name = name;
-        this.accessToken = accessToken;
+        this.enterpriseIdentifier = identifier;
     }
 
     public String getName() {
@@ -19,20 +19,20 @@ public class ResponseEnterpriseRegisterJson {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getAccessToken() {
-        return accessToken;
+    
+    public String getEnterpriseIdentifier() {
+        return enterpriseIdentifier;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setEnterpriseIdentifier(String enterpriseIdentifier) {
+        this.enterpriseIdentifier = enterpriseIdentifier;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + Objects.hashCode(this.name);
-        hash = 31 * hash + Objects.hashCode(this.accessToken);
+        hash = 31 * hash + Objects.hashCode(this.enterpriseIdentifier);
         return hash;
     }
 
@@ -51,7 +51,6 @@ public class ResponseEnterpriseRegisterJson {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        return Objects.equals(this.accessToken, other.accessToken);
+        return Objects.equals(this.enterpriseIdentifier, other.enterpriseIdentifier);
     }
-
 }

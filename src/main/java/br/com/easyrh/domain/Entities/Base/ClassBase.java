@@ -16,8 +16,8 @@ public class ClassBase implements  Serializable
     private static final long serialVersionUID = 1L;
 
     @Id //Auto increment
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long Id;
+    @GeneratedValue(strategy=GenerationType.UUID)
+    private UUID Id;
 
     @Column(name="create_date")
     private Date CreationDate;
@@ -39,7 +39,7 @@ public class ClassBase implements  Serializable
         this.ModificationDate = new Date();
     }
 
-    public ClassBase(Long id, Date creationDate, Boolean active, String guid_Identifier, Date modificationDate) {
+    public ClassBase(UUID id, Date creationDate, Boolean active, String guid_Identifier, Date modificationDate) {
         this.Id = id;
         this.CreationDate = creationDate;
         this.Active = active;
@@ -48,11 +48,11 @@ public class ClassBase implements  Serializable
     }
 
 
-    public Long getId() {
+    public UUID getId() {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         Id = id;
     }
 
