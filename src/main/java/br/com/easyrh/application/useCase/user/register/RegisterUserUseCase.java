@@ -11,6 +11,7 @@ import br.com.easyrh.domain.Enum.Role;
 import br.com.easyrh.domain.repositories.user.readOnly.IUserReadOnlyRepository;
 import br.com.easyrh.domain.repositories.user.writeOnly.IUserWriteOnlyrepository;
 import br.com.easyrh.exceptions.ErrorOnValidationException;
+import br.com.easyrh.infrastructure.security.jwt.IGenereteToken;
 import br.com.easyrh.infrastructure.security.passwordEncrypter.IPasswordEncrypter;
 import br.com.easyrh.shered.request.user.RequestUserRegisterJson;
 import br.com.easyrh.shered.response.user.ResponseUserRegisterJson;
@@ -22,17 +23,20 @@ public class RegisterUserUseCase implements IRegisterUserUseCase
     private final IUserReadOnlyRepository _readRepository;
     private final IUserWriteOnlyrepository _writeRepository;
     private final IPasswordEncrypter _passwordEncrypter;
+    private final IGenereteToken _genereteToken;
 
     @Autowired
     public RegisterUserUseCase(RegisterUserValidator validator
     , IUserReadOnlyRepository repository
     , IUserWriteOnlyrepository writeRepository
-    , IPasswordEncrypter passwordEncrypter) 
+    , IPasswordEncrypter passwordEncrypter
+    , IGenereteToken genereteToken) 
     {
         this._validator = validator;
         this._readRepository = repository;
         this._writeRepository = writeRepository;
         this._passwordEncrypter = passwordEncrypter;
+        this._genereteToken = genereteToken;
     }
 
     @Override
@@ -106,7 +110,7 @@ public class RegisterUserUseCase implements IRegisterUserUseCase
         return new ResponseUserRegisterJson
         (
             name,
-            GetEncryptedPassword(password),
+            _genereteToken.GenereteToken(email),
             email,
             role
         );

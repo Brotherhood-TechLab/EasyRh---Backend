@@ -8,7 +8,51 @@
 	},
 	"item": [
 		{
-			"name": "RegisterRecipe",
+			"name": "User",
+			"item": [
+				{
+					"name": "User-register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Fulano de Tal\",\r\n  \"email\": \"fulano@example.com\",\r\n  \"password\": \"Amadeu123@\",\r\n  \"cpf\": \"123.456.789-00\",\r\n  \"dateofbirth\": \"1980-01-01\",\r\n  \"gender\": \"M\",\r\n  \"phone\": \"(79) 98844-5482\",\r\n  \"role\": true,\r\n  \"enterpriseNumber\": \"'73297597'\",\r\n  \"address\": {\r\n    \"street\": \"Rua Exemplo\",\r\n    \"complement\": \"Teste teste teste\",\r\n    \"number\": \"123\",\r\n    \"neighborhood\": \"Bairro Exemplo\",\r\n    \"city\": \"Cidade Exemplo\",\r\n    \"state\": \"SE\",\r\n    \"zipCode\": \"12345-678\",\r\n    \"country\": \"BRA\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"fulano@example.com\",\r\n    \"password\":\"Amadeu123@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enterprise-register",
 			"event": [
 				{
 					"listen": "test",
@@ -39,6 +83,12 @@
 				}
 			],
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJFYXN5UkgtQVBJIiwic3ViIjoiZnVsYW5vQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1NDU1NDUxfQ.qcO0sbFPs4UFe8j57-eXrfnga_6FLC1Zf4Q2qM3ds6c"
+					}
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -54,8 +104,23 @@
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 			},
 			"response": []
+		},
+		{
+			"name": "{{base_url}}/enterprise/getData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/enterprise/getData"
+			},
+			"response": []
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJFYXN5UkgtQVBJIiwic3ViIjoiZnVsYW5vQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1NDU0OTUzfQ.Nv5ZcU8mWRxkJAZDt8RGIgevhrgWgxkH8aNZxuZaoQk"
+		}
+	},
 	"event": [
 		{
 			"listen": "prerequest",
