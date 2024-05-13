@@ -16,5 +16,11 @@ spring:
 api:
   security:
     secret: ${env:JWT_SECRET:testedesecretkeymalucapaenasparateste}
+    expire-lenght: 2
+
+springdoc:
+    pathsToMatch: "/api/**/v1/**" 
+    swagger-ui:
+      use-root-path: true
 
 

@@ -20,6 +20,9 @@ public class JwtTokenServices implements IGenereteToken
     @Value("${api.security.secret}")
     private String SECRET_KEY;
 
+    @Value("${api.security.expire-lenght}")
+    private int EXPIRATION_TIME;
+
     private final String ISSUER = "EasyRH-API";
 
     public String GenereteToken(String email)
@@ -44,7 +47,7 @@ public class JwtTokenServices implements IGenereteToken
     private Instant GenExpirationDate()
     {
         //Define o tempo de expiração do token, adicionando 2 horas a partir da hora atual
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")); //Timezone brasilia
+        return LocalDateTime.now().plusHours(EXPIRATION_TIME).toInstant(ZoneOffset.of("-03:00")); //Timezone brasilia
     }
 
     public String ValidateToken(String token)
