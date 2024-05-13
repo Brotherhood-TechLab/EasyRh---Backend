@@ -24,15 +24,30 @@ public class SecurityConfiguration
     @Autowired
     private SecurityFilter SecurityFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+        // -- Swagger UI v2
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",
+        // -- Swagger UI v3 (OpenAPI)
+        "/v3/api-docs/**",
+        "/swagger-ui/**"
+        // other public endpoints of your API may be appended to this array
+    };
+
     //Define a configuração de segurança 
     @Bean
     public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception{
-
         //Define a configuração de segurança
         return httpSecurity
                 .csrf(_csrf -> _csrf.disable())
                 .sessionManagement(_session -> _session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //desabilita a criação de sessão 
                 .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(AUTH_WHITELIST).permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() //define as rotas que o usuário anônimo tem acesso
                     .requestMatchers(HttpMethod.POST, "/enterprise").hasRole("ADMIN")//define as rotas que o usuário do tipo ADMIN tem acesso
