@@ -5,82 +5,74 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static br.com.easyrh.application.Utils.erroMessageOnValidation.ErrorMessage.GetErrorMessage;
+import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMessage.GetErrorMessage;
 import br.com.easyrh.domain.Entities.Enterprise;
 import br.com.easyrh.exceptions.ErrorOnValidationException;
 import br.com.easyrh.infrastructure.repository.enterpriseRepository.IEnterpriseRepository;
-import br.com.easyrh.shered.request.enterprise.RequestEnterpriseRegisterJson;
-import br.com.easyrh.shered.response.enterprise.ResponseEnterpriseRegisterJson;
+import br.com.easyrh.shared.request.enterprise.RequestEnterpriseRegisterJson;
+import br.com.easyrh.shared.response.enterprise.ResponseEnterpriseRegisterJson;
 
+@Service // Informa que a classe é um Serviço que será injetada pelo Spring
+public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase {
+  // private final AtomicLong id = new AtomicLong();
+  // private Logger logger =
+  // Logger.getLogger(RegisterableService.class.getName());
 
-@Service //Informa que a classe é um Serviço que será injetada pelo Spring
-public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase 
-{
-    // private final AtomicLong id = new AtomicLong();
-    // private Logger logger = Logger.getLogger(RegisterableService.class.getName());
+  @Autowired
+  private RegisterEnterpriseValidator _registerEnterpriseValidator;
+  private IEnterpriseRepository _repository;
 
-    @Autowired
-    private RegisterEnterpriseValidator _registerEnterpriseValidator;
-    private IEnterpriseRepository _repository;
-    
-    public RegisterEnterpriseUseCase(RegisterEnterpriseValidator _registerEnterpriseValidator
-    ,IEnterpriseRepository repository) {
-        this._registerEnterpriseValidator = _registerEnterpriseValidator;
-        this._repository = repository;
+  public RegisterEnterpriseUseCase(RegisterEnterpriseValidator _registerEnterpriseValidator,
+      IEnterpriseRepository repository) {
+    this._registerEnterpriseValidator = _registerEnterpriseValidator;
+    this._repository = repository;
+  }
+
+  @Override
+  public ResponseEnterpriseRegisterJson Execute(RequestEnterpriseRegisterJson request) {
+
+    ValidateRequest(request);
+
+    var enterprise = SaveEnterprise(request);
+
+    return BuildResponse(enterprise);
+  }
+
+  private void ValidateRequest(RequestEnterpriseRegisterJson enterprise) {
+    var result = BuildValidate(enterprise);
+
+    if (result.hasErrors()) {
+      var message = GetErrorMessage(result);
+      throw new ErrorOnValidationException(message);
     }
+  }
 
-    @Override
-    public ResponseEnterpriseRegisterJson Execute(RequestEnterpriseRegisterJson request) {
+  private Errors BuildValidate(RequestEnterpriseRegisterJson enterprise) {
+    Errors errors = new BeanPropertyBindingResult(enterprise, "enterprise");
 
-        ValidateRequest(request);
+    _registerEnterpriseValidator.validate(enterprise, errors);
 
-        var enterprise = SaveEnterprise(request);
+    return errors;
+  }
 
-        return BuildResponse(enterprise);
-    }
+  private Enterprise SaveEnterprise(RequestEnterpriseRegisterJson request) {
+    var enterprise = BuildEnterpriseEntity(request);
 
-    private void ValidateRequest(RequestEnterpriseRegisterJson enterprise) 
-    {
-        var result = BuildValidate(enterprise);
+    _repository.save(enterprise);
 
-        if (result.hasErrors())
-        {
-            var message = GetErrorMessage(result);
-            throw new ErrorOnValidationException(message);
-        }
-    } 
+    return enterprise;
+  }
 
-    private Errors BuildValidate(RequestEnterpriseRegisterJson enterprise)
-    {
-        Errors errors = new BeanPropertyBindingResult(enterprise, "enterprise");
+  private Enterprise BuildEnterpriseEntity(RequestEnterpriseRegisterJson request) {
+    var dataToPersiste = new Enterprise(request);
 
-        _registerEnterpriseValidator.validate(enterprise, errors);
+    return dataToPersiste;
+  }
 
-        return errors;
-    }
-
-    private Enterprise SaveEnterprise(RequestEnterpriseRegisterJson request)
-    {
-        var enterprise = BuildEnterpriseEntity(request);
-
-        _repository.save(enterprise);
-
-        return enterprise;
-    }
-
-    private Enterprise BuildEnterpriseEntity(RequestEnterpriseRegisterJson request)
-    {
-        var dataToPersiste = new Enterprise(request);
-
-        return dataToPersiste;
-    }
-
-    private ResponseEnterpriseRegisterJson BuildResponse(Enterprise response)
-    {
-        return new ResponseEnterpriseRegisterJson(
-            response.getName(),
-            response.getGuid_Identifier()
-        );
-    }
+  private ResponseEnterpriseRegisterJson BuildResponse(Enterprise response) {
+    return new ResponseEnterpriseRegisterJson(
+        response.getName(),
+        response.getGuid_Identifier());
+  }
 
 }

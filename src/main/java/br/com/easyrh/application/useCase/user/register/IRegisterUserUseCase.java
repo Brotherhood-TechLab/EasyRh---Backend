@@ -1,9 +1,8 @@
 package br.com.easyrh.application.useCase.user.register;
 
-import br.com.easyrh.shered.request.user.RequestUserRegisterJson;
-import br.com.easyrh.shered.response.user.ResponseUserRegisterJson;
+import br.com.easyrh.shared.request.user.RequestUserRegisterJson;
+import br.com.easyrh.shared.response.user.ResponseUserRegisterJson;
 
-public interface IRegisterUserUseCase 
-{
-    public ResponseUserRegisterJson Execute(RequestUserRegisterJson request);
+public interface IRegisterUserUseCase {
+  public ResponseUserRegisterJson Execute(RequestUserRegisterJson request);
 }

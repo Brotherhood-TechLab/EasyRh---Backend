@@ -11,89 +11,86 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class ClassBase implements  Serializable
-{
-    private static final long serialVersionUID = 1L;
+public class ClassBase implements Serializable {
+  private static final long serialVersionUID = 1L;
 
-    @Id //Auto increment
-    @GeneratedValue(strategy=GenerationType.UUID)
-    private UUID Id;
+  @Id // Auto increment
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID Id;
 
-    @Column(name="create_date")
-    private Date CreationDate;
+  @Column(name = "create_date")
+  private Date CreationDate;
 
-    @Column(name="active")
-    private Boolean Active;
+  @Column(name = "active")
+  private Boolean Active;
 
-    @Column(name="Guid_Identifier")  
-    private String Guid_Identifier;
+  @Column(name = "Guid_Identifier")
+  private String Guid_Identifier;
 
-    @Column(name = "modification_date")
-    private Date ModificationDate;
-    
-    public ClassBase() 
-    {
-        this.CreationDate = new Date();
-        this.Active = true;
-        this.Guid_Identifier = UUID.randomUUID().toString();
-        this.ModificationDate = new Date();
-    }
+  @Column(name = "modification_date")
+  private Date ModificationDate;
 
-    public ClassBase(UUID id, Date creationDate, Boolean active, String guid_Identifier, Date modificationDate) {
-        this.Id = id;
-        this.CreationDate = creationDate;
-        this.Active = active;
-        this.Guid_Identifier = guid_Identifier;
-        this.ModificationDate = modificationDate;
-    }
+  public ClassBase() {
+    this.CreationDate = new Date();
+    this.Active = true;
+    this.Guid_Identifier = UUID.randomUUID().toString();
+    this.ModificationDate = new Date();
+  }
 
+  public ClassBase(UUID id, Date creationDate, Boolean active, String guid_Identifier, Date modificationDate) {
+    this.Id = id;
+    this.CreationDate = creationDate;
+    this.Active = active;
+    this.Guid_Identifier = guid_Identifier;
+    this.ModificationDate = modificationDate;
+  }
 
-    public UUID getId() {
-        return Id;
-    }
+  public UUID getId() {
+    return Id;
+  }
 
-    public void setId(UUID id) {
-        Id = id;
-    }
+  public void setId(UUID id) {
+    Id = id;
+  }
 
-    public Date getCreationDate() {
-        return CreationDate;
-    }
+  public Date getCreationDate() {
+    return CreationDate;
+  }
 
-    public void setCreationDate(Date creationDate) {
-        CreationDate = creationDate;
-    }
+  public void setCreationDate(Date creationDate) {
+    CreationDate = creationDate;
+  }
 
-    public Boolean isActive() {
-        return Active;
-    }
+  public Boolean isActive() {
+    return Active;
+  }
 
-    public void setActive(boolean active) {
-        Active = active;
-    }
+  public void setActive(boolean active) {
+    Active = active;
+  }
 
-    public String getGuid_Identifier() {
-        return Guid_Identifier;
-    }
+  public String getGuid_Identifier() {
+    return Guid_Identifier;
+  }
 
-    public void setGuid_Identifier(String Guid_Identifier) {
-        Guid_Identifier = Guid_Identifier;
-    }    
+  public void setGuid_Identifier(String Guid_Identifier) {
+    this.Guid_Identifier = Guid_Identifier;
+  }
 
-    public Boolean getActive() {
-        return Active;
-    }
+  public Boolean getActive() {
+    return Active;
+  }
 
-    public void setActive(Boolean Active) {
-        this.Active = Active;
-    }
+  public void setActive(Boolean Active) {
+    this.Active = Active;
+  }
 
-    public Date getModificationDate() {
-        return ModificationDate;
-    }
+  public Date getModificationDate() {
+    return ModificationDate;
+  }
 
-    public void setModificationDate(Date ModificationDate) {
-        this.ModificationDate = ModificationDate;
-    }
+  public void setModificationDate(Date ModificationDate) {
+    this.ModificationDate = ModificationDate;
+  }
 
 }
