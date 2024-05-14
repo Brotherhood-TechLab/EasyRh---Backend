@@ -28,7 +28,7 @@ public class LoginController {
     this._userLoginUseCase = userLoginUseCase;
   }
 
-  @PostMapping("api/login/v1")
+  @PostMapping("/login")
   @Operation(summary = "Login a user", description = "Login a user", tags = { "Auth" }, responses = {
       @ApiResponse(responseCode = "200", description = "Successful operation", content = {
           @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseLoginJson.class))
