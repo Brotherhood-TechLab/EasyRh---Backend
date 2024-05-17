@@ -1,11 +1,12 @@
 package br.com.easyrh.application.useCase.user.register;
 
+import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMessage.GetErrorMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMessage.GetErrorMessage;
 import br.com.easyrh.domain.Entities.User;
 import br.com.easyrh.domain.Enum.Role;
 import br.com.easyrh.domain.repositories.user.readOnly.IUserReadOnlyRepository;

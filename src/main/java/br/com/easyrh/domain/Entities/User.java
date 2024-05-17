@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.easyrh.domain.Entities.Base.ClassBase;
 import br.com.easyrh.domain.Enum.Role;
+import br.com.easyrh.shared.request.user.RequestUserEditJson;
 import br.com.easyrh.shared.request.user.RequestUserRegisterJson;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -66,6 +67,14 @@ public class User extends ClassBase implements UserDetails {
     BeanUtils.copyProperties(user, this);
 
     this.Address = new Address(user.getAddress());
+  }
+
+  public User(RequestUserEditJson user) {
+    super();
+
+    BeanUtils.copyProperties(user, this);
+
+    this.Address = new Address(user.Address());
   }
 
   public User() {
