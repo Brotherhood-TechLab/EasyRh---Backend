@@ -89,7 +89,7 @@ public class RegisterUserService implements IRegisterUserSerivce
     {
         var response = _mapper.map(user, ResponseUserRegisterJson.class);
 
-        response.setAccessToken(_genereteToken.GenereteToken(user.getEmail()));
+        response.setAccessToken(_genereteToken.GenereteToken(user.getGuid_Identifier()));
 
         return response;
     }

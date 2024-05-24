@@ -25,14 +25,14 @@ public class JwtTokenServices implements IGenereteToken
 
     private final String ISSUER = "EasyRH-API";
 
-    public String GenereteToken(String email)
+    public String GenereteToken(String userIdentifier)
     {
         try
         {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY); //A secrete define uma chave para assinar o token que será unica para cada aplicação
             String token = JWT.create()
                                 .withIssuer(ISSUER)//Define o emissor do token
-                                .withSubject(email)//Define o assinante do token
+                                .withSubject(userIdentifier)//Define o assinante do token
                                 .withExpiresAt(GenExpirationDate())//Define o tempo de expiração do token
                                 .sign(algorithm);//Assina o token
 
