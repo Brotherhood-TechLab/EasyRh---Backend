@@ -25,6 +25,7 @@ public class SecurityConfiguration implements WebMvcConfigurer
 {
     @Autowired
     private SecurityFilter SecurityFilter;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) 
     {
