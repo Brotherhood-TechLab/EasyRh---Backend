@@ -67,5 +67,4 @@ public class UserLoginUseCase implements IUserLoginUseCase {
   private String GetToken(String email) {
     return _genereteToken.GenereteToken(email);
   }
-
 }

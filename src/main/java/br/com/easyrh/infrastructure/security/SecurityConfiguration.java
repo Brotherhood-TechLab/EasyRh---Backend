@@ -69,8 +69,8 @@ public class SecurityConfiguration implements WebMvcConfigurer
     @Bean 
     public PasswordEncoder Enconde()
     {
-        //O BCryptPasswordEncoder gera senhas criptografadas com o algoritmo BCrypt,
-        //onde o salt e o hash sao gerados automaticamente
+        /*O BCryptPasswordEncoder gera senhas criptografadas com o algoritmo BCrypt,
+        onde o salt e o hash sao gerados automaticamente */
         return new BCryptPasswordEncoder();
     }
 

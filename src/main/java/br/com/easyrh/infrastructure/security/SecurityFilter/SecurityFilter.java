@@ -34,9 +34,9 @@ public class SecurityFilter extends OncePerRequestFilter
 
         if(!IsTokenNull(token))
         {
-            var email = GetTokenSubject(token);//Recuperando o assinante do token
+            var identifier = GetTokenSubject(token);//Recuperando o assinante do token
 
-            UserDetails user = GetUser(email);//Recuperando o usuário
+            UserDetails user = GetUser(identifier);//Recuperando o usuário
 
             var authentication = GetAuthentication(user);//Autenticando o usuário
 
@@ -49,15 +49,9 @@ public class SecurityFilter extends OncePerRequestFilter
     private String RecoverToken(HttpServletRequest request)
     {
         var authHeader= request.getHeader("Authorization"); //Recebe o token da requisição 
-        if(authHeader == null)
-        {
-            return null;
-        }
-        else
-        {
-            //Por padrão o token vem com o formato Bearer <token>, pegando so o <token>
-            return authHeader.replace("Bearer ", "");
-        }
+        if(authHeader == null) { return null; }
+        //Por padrão o token vem com o formato Bearer <token>, pegando so o <token>
+        else{ return authHeader.replace("Bearer ", ""); }
     }
 
     private String GetToken(HttpServletRequest request)
@@ -76,9 +70,9 @@ public class SecurityFilter extends OncePerRequestFilter
         return subject;
     }
 
-    private UserDetails GetUser(String email)
+    private UserDetails GetUser(String identifier)
     {
-        return _userRepository.findByEmail(email);
+        return _userRepository.existsByIdentifier(identifier);
     }
 
     private UsernamePasswordAuthenticationToken GetAuthentication(UserDetails user)
