@@ -131,6 +131,10 @@ public class User extends ClassBase implements UserDetails {
     return Role;
   }
 
+  public Address getAddress() { return Address; }
+
+  public void setAddress(Address address) { Address = address; }
+
   public void setRole(Role role) {
     Role = role;
   }
