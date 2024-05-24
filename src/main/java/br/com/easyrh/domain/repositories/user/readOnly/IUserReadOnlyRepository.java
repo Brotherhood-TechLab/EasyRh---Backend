@@ -1,8 +1,11 @@
 package br.com.easyrh.domain.repositories.user.readOnly;
 
-public interface IUserReadOnlyRepository 
-{
-    public boolean ExistsUserByEmail(String email);
+import br.com.easyrh.domain.Entities.User;
 
-    public boolean ExistsUserByCpf(String email);
+public interface IUserReadOnlyRepository {
+  public boolean ExistsUserByEmail(String email);
+
+  public boolean ExistsUserByCpf(String email);
+
+  public User FindByCPF(String cpf);
 }

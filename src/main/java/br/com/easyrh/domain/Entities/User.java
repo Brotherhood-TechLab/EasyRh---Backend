@@ -12,6 +12,7 @@ import br.com.easyrh.domain.Entities.Base.ClassBase;
 import br.com.easyrh.domain.Enum.Role;
 import br.com.easyrh.shared.request.user.RequestUserEditJson;
 import br.com.easyrh.shared.request.user.RequestUserRegisterJson;
+import br.com.easyrh.shared.response.user.ResponseUserRepresentation;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -176,5 +177,10 @@ public class User extends ClassBase implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  public ResponseUserRepresentation toDTO() {
+    return new ResponseUserRepresentation(Name, Email, Password, Cpf, Dateofbirth, Gender, Phone, "PREENCHER",
+        Role.getBoolRole(), Address.toDTO());
   }
 }

@@ -202,4 +202,8 @@ public class Address extends ClassBase {
     return true;
   }
 
+  public RequestAddressRegisterJson toDTO() {
+    return new RequestAddressRegisterJson(Street, Number, Neighborhood, Complement, City, State, ZipCode, Country);
+  }
+
 }

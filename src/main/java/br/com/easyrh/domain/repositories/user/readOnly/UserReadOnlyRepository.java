@@ -3,6 +3,8 @@ package br.com.easyrh.domain.repositories.user.readOnly;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.easyrh.domain.Entities.User;
+import br.com.easyrh.exceptions.ErrorOnQueryException;
 import br.com.easyrh.infrastructure.repository.userRepository.IUserRepository;
 
 @Service
@@ -24,6 +26,12 @@ public class UserReadOnlyRepository implements IUserReadOnlyRepository {
   public boolean ExistsUserByCpf(String email) {
     var user = _userRepository.findByCPF(email);
     return !user.isEmpty();
+  }
+
+  @Override
+  public User FindByCPF(String cpf) {
+    return _userRepository.findByCPF(cpf).map(User.class::cast)
+        .orElseThrow(() -> new ErrorOnQueryException("Usuário não cadastrado"));
   }
 
 }
