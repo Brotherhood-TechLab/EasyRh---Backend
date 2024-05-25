@@ -16,9 +16,12 @@ public interface IUserRepository extends JpaRepository<User, UUID> {
   @Query("SELECT p FROM User p WHERE p.Email = :email")
   UserDetails findByEmail(@Param("email") String email);
 
-  @Query("SELECT p FROM User p WHERE p.Email = :email")
-  Optional<User> existsByEmail(@Param("email") String email);
+  @Query("SELECT p FROM User p WHERE p.Guid_Identifier = :identifier")
+  UserDetails existsByIdentifier(@Param("identifier") String identifier);
+
+  @Query("SELECT p FROM User p WHERE p.Email = :email OR p.Cpf = :cpf")
+  Optional<User> findByEmailAndCPF(@Param("email") String email, @Param("cpf") String cpf);
 
   @Query("SELECT p FROM User p WHERE p.Cpf = :cpf")
-  Optional<User> findByCPF(@Param("cpf") String cpf);
+  Optional<User> findByCpf(@Param("cpf") String cpf);
 }

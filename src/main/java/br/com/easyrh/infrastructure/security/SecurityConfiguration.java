@@ -20,6 +20,7 @@ import br.com.easyrh.infrastructure.security.SecurityFilter.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfiguration implements WebMvcConfigurer {
   @Autowired
   private SecurityFilter SecurityFilter;

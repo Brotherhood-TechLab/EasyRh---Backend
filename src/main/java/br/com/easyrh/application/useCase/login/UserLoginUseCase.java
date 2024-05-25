@@ -1,5 +1,6 @@
 package br.com.easyrh.application.useCase.login;
 
+import br.com.easyrh.domain.service.login.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,24 +16,23 @@ import br.com.easyrh.shared.response.login.ResponseLoginJson;
 
 @Service
 public class UserLoginUseCase implements IUserLoginUseCase {
+
   private final UserLoginValidator _validator;
-  private final AuthenticationManager _authenticationManager;
-  private final IGenereteToken _genereteToken;
+  private final ILoginService _loginService;
 
   @Autowired
   public UserLoginUseCase(UserLoginValidator validator,
-      AuthenticationManager authenticationManager,
-      IGenereteToken genereteToken) {
-    this._validator = validator;
-    _authenticationManager = authenticationManager;
-    _genereteToken = genereteToken;
+                          ILoginService loginService)
+  {
+      _validator = validator;
+      _loginService = loginService;
   }
 
   @Override
-  public ResponseLoginJson Execute(RequestLoginJson request) {
+  public ResponseLoginJson Execute(RequestLoginJson request)
+  {
     ValidateRequest(request);
-    UserValidate(request);
-    return BuildResponse(request);
+    return _loginService.DoLogin(request);
   }
 
   private void ValidateRequest(RequestLoginJson request) {
@@ -48,24 +48,6 @@ public class UserLoginUseCase implements IUserLoginUseCase {
     Errors errors = new BeanPropertyBindingResult(request, "request");
     _validator.validate(request, errors);
     return errors;
-  }
-
-  private void UserValidate(RequestLoginJson request) {
-    _authenticationManager.authenticate(GetUsernamePasswordToken(request));
-  }
-
-  private UsernamePasswordAuthenticationToken GetUsernamePasswordToken(RequestLoginJson request) {
-    return new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
-  }
-
-  private ResponseLoginJson BuildResponse(RequestLoginJson request) {
-    return new ResponseLoginJson(
-        GetToken(request.getEmail()),
-        request.getEmail());
-  }
-
-  private String GetToken(String email) {
-    return _genereteToken.GenereteToken(email);
   }
 
 }

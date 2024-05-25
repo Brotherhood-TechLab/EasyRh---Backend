@@ -17,21 +17,13 @@ public class UserReadOnlyRepository implements IUserReadOnlyRepository {
   }
 
   @Override
-  public boolean ExistsUserByEmail(String email) {
-    var user = _userRepository.existsByEmail(email);
-    return !user.isEmpty();
-  }
-
-  @Override
-  public boolean ExistsUserByCpf(String email) {
-    var user = _userRepository.findByCPF(email);
-    return !user.isEmpty();
+  public boolean ExistUserByEmailOrCpf(String email, String cpf) {
+    return _userRepository.findByEmailAndCPF(email, cpf).isPresent();
   }
 
   @Override
   public User FindByCPF(String cpf) {
-    return _userRepository.findByCPF(cpf).map(User.class::cast)
+    return _userRepository.findByCpf(cpf).map(User.class::cast)
         .orElseThrow(() -> new ErrorOnQueryException("Usuário não cadastrado"));
   }
-
 }

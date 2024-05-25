@@ -14,7 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "br.com.easyrh.infrastructure.repository")
 public class Startup {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) 
+  {
     SpringApplication.run(Startup.class, args);
   }
 

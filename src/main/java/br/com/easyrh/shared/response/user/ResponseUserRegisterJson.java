@@ -8,7 +8,12 @@ public class ResponseUserRegisterJson {
   private String Email;
   private Role Role;
 
-  public ResponseUserRegisterJson(String name, String accessToken, String email, Role role) {
+  public ResponseUserRegisterJson() {}
+
+  public ResponseUserRegisterJson(String name,
+                                  String accessToken,
+                                  String email,
+                                  Role role) {
     Name = name;
     AccessToken = accessToken;
     Email = email;

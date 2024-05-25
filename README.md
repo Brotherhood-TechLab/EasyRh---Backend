@@ -2,6 +2,8 @@
 
 Bem-vindo ao repositório do backend do EasyRH! Este projeto é a parte do servidor da aplicação EasyRH, desenvolvida em Spring Boot, que fornece serviços e APIs para gerenciar recursos humanos, incluindo autenticação, gerenciamento de usuários, manipulação de dados de RH e muito mais.
 
+Arquitetura em camadas e voltada ao DDD
+
 ## Requisitos
 
 Antes de começar, verifique se você possui as seguintes ferramentas instaladas em sua máquina:
