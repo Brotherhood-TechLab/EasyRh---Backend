@@ -37,7 +37,7 @@ public class RegisterUserService implements IRegisterUserSerivce {
 
   @Override
   public ResponseUserRegisterJson RegisterUser(RequestUserRegisterJson request) {
-    ApplyValidationRules(request.getEmail(), request.getPassword());
+    ApplyValidationRules(request.getEmail(), request.getCpf());
 
     return SaveUser(request);
   }
@@ -61,7 +61,8 @@ public class RegisterUserService implements IRegisterUserSerivce {
   }
 
   private User BuildUserEntity(RequestUserRegisterJson request) {
-    var user = _mapper.map(request, User.class);
+    // var user = _mapper.map(request, User.class);
+    var user = new User(request);
 
     user.setRole(GetRole(request.getRole()));
 

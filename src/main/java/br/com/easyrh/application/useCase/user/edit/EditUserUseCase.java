@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 
 import br.com.easyrh.domain.Entities.User;
 import br.com.easyrh.domain.Enum.Role;
+import br.com.easyrh.domain.repositories.user.readOnly.IUserReadOnlyRepository;
 import br.com.easyrh.domain.repositories.user.writeOnly.IUserWriteOnlyRepository;
 import br.com.easyrh.exceptions.ErrorOnValidationException;
 import br.com.easyrh.infrastructure.security.passwordEncrypter.IPasswordEncrypter;
@@ -18,13 +19,16 @@ import br.com.easyrh.shared.request.user.RequestUserEditJson;
 public class EditUserUseCase implements IEditUserUseCase {
   private final EditUserValidator _validator;
   private final IUserWriteOnlyRepository _writeRepository;
+  private final IUserReadOnlyRepository _readRepository;
   private final IPasswordEncrypter _passwordEncrypter;
 
   @Autowired
   public EditUserUseCase(EditUserValidator validator, IUserWriteOnlyRepository writeRepository,
+      IUserReadOnlyRepository readRepository,
       IPasswordEncrypter passwordEncrypter) {
     this._validator = validator;
     this._writeRepository = writeRepository;
+    this._readRepository = readRepository;
     this._passwordEncrypter = passwordEncrypter;
   }
 
@@ -55,9 +59,14 @@ public class EditUserUseCase implements IEditUserUseCase {
 
   private void SaveUser(RequestUserEditJson request) {
 
-    var userEntity = BuildUserEntity(request);
+    var newUserEntity = BuildUserEntity(request);
 
-    _writeRepository.SaveUser(userEntity);
+    var oldUserEntity = _readRepository.FindByCPF(newUserEntity.getCpf());
+
+    newUserEntity.setId(oldUserEntity.getId());
+    newUserEntity.getAddress().setId(oldUserEntity.getAddress().getId());
+
+    _writeRepository.SaveUser(newUserEntity);
   }
 
   private User BuildUserEntity(RequestUserEditJson request) {

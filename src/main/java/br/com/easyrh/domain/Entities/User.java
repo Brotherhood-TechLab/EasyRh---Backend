@@ -35,7 +35,7 @@ public class User extends ClassBase implements UserDetails {
   @Column(name = "password", nullable = false, length = 2000)
   private String Password;
 
-  @Column(name = "cpf", nullable = false, length = 14)
+  @Column(name = "cpf", nullable = false, length = 14, unique = true)
   private String Cpf;
 
   @Column(name = "date_birth", nullable = false)
@@ -54,8 +54,7 @@ public class User extends ClassBase implements UserDetails {
   @Column(name = "role")
   private Role Role;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "address_id")
+  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Address Address;
 
   @OneToOne(fetch = FetchType.LAZY)
@@ -68,6 +67,8 @@ public class User extends ClassBase implements UserDetails {
     BeanUtils.copyProperties(user, this);
 
     this.Address = new Address(user.getAddress());
+    this.Address.setUser(this);
+
   }
 
   public User(RequestUserEditJson user) {
@@ -76,6 +77,7 @@ public class User extends ClassBase implements UserDetails {
     BeanUtils.copyProperties(user, this);
 
     this.Address = new Address(user.Address());
+    this.Address.setUser(this);
   }
 
   public User() {
@@ -141,9 +143,13 @@ public class User extends ClassBase implements UserDetails {
     return Role;
   }
 
-  public Address getAddress() { return Address; }
+  public Address getAddress() {
+    return Address;
+  }
 
-  public void setAddress(Address address) { Address = address; }
+  public void setAddress(Address address) {
+    Address = address;
+  }
 
   public void setRole(Role role) {
     Role = role;

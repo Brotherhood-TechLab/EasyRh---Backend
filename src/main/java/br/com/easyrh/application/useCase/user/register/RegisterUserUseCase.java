@@ -38,6 +38,7 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
       var message = GetErrorMessage(result);
       throw new ErrorOnValidationException(message);
     }
+
   }
 
   private Errors BuildValidator(RequestUserRegisterJson request) {

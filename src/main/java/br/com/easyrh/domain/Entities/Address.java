@@ -47,7 +47,7 @@ public class Address extends ClassBase {
   @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Enterprise Enterprise;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
 
@@ -69,70 +69,6 @@ public class Address extends ClassBase {
 
     // Gera um identificador GUID único para esta instância de endereço
     this.setGuid_Identifier(UUID.randomUUID().toString());
-  }
-
-  public String getStreet() {
-    return Street;
-  }
-
-  public void setStreet(String street) {
-    Street = street;
-  }
-
-  public String getNumber() {
-    return Number;
-  }
-
-  public void setNumber(String number) {
-    Number = number;
-  }
-
-  public String getNeighborhood() {
-    return Neighborhood;
-  }
-
-  public void setNeighborhood(String neighborhood) {
-    Neighborhood = neighborhood;
-  }
-
-  public String getComplement() {
-    return Complement;
-  }
-
-  public void setComplement(String complement) {
-    Complement = complement;
-  }
-
-  public String getCity() {
-    return City;
-  }
-
-  public void setCity(String city) {
-    City = city;
-  }
-
-  public String getState() {
-    return State;
-  }
-
-  public void setState(String state) {
-    State = state;
-  }
-
-  public String getZipCode() {
-    return ZipCode;
-  }
-
-  public void setZipCode(String zipCode) {
-    ZipCode = zipCode;
-  }
-
-  public String getCountry() {
-    return Country;
-  }
-
-  public void setCountry(String country) {
-    Country = country;
   }
 
   @Override
@@ -204,6 +140,90 @@ public class Address extends ClassBase {
 
   public RequestAddressRegisterJson toDTO() {
     return new RequestAddressRegisterJson(Street, Number, Neighborhood, Complement, City, State, ZipCode, Country);
+  }
+
+  public static long getSerialversionuid() {
+    return serialVersionUID;
+  }
+
+  public String getStreet() {
+    return Street;
+  }
+
+  public void setStreet(String street) {
+    Street = street;
+  }
+
+  public String getNumber() {
+    return Number;
+  }
+
+  public void setNumber(String number) {
+    Number = number;
+  }
+
+  public String getComplement() {
+    return Complement;
+  }
+
+  public void setComplement(String complement) {
+    Complement = complement;
+  }
+
+  public String getNeighborhood() {
+    return Neighborhood;
+  }
+
+  public void setNeighborhood(String neighborhood) {
+    Neighborhood = neighborhood;
+  }
+
+  public String getCity() {
+    return City;
+  }
+
+  public void setCity(String city) {
+    City = city;
+  }
+
+  public String getState() {
+    return State;
+  }
+
+  public void setState(String state) {
+    State = state;
+  }
+
+  public String getZipCode() {
+    return ZipCode;
+  }
+
+  public void setZipCode(String zipCode) {
+    ZipCode = zipCode;
+  }
+
+  public String getCountry() {
+    return Country;
+  }
+
+  public void setCountry(String country) {
+    Country = country;
+  }
+
+  public Enterprise getEnterprise() {
+    return Enterprise;
+  }
+
+  public void setEnterprise(Enterprise enterprise) {
+    Enterprise = enterprise;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 
 }
