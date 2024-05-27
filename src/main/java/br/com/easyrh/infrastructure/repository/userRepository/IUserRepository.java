@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 import br.com.easyrh.domain.Entities.User;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, UUID>
-{
+public interface IUserRepository extends JpaRepository<User, UUID> {
   @Query("SELECT p FROM User p WHERE p.Email = :email")
   UserDetails findByEmail(@Param("email") String email);
 
@@ -23,4 +22,6 @@ public interface IUserRepository extends JpaRepository<User, UUID>
   @Query("SELECT p FROM User p WHERE p.Email = :email OR p.Cpf = :cpf")
   Optional<User> findByEmailAndCPF(@Param("email") String email, @Param("cpf") String cpf);
 
+  @Query("SELECT p FROM User p WHERE p.Cpf = :cpf")
+  Optional<User> findByCpf(@Param("cpf") String cpf);
 }
