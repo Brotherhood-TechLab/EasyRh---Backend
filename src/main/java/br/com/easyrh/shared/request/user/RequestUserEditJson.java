@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import br.com.easyrh.shared.request.address.RequestAddressRegisterJson;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+
 public record RequestUserEditJson(@JsonAlias("name") String Name,
                                   @JsonAlias("email") String Email,
                                   @JsonAlias("cpf") String Cpf,

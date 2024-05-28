@@ -4,6 +4,7 @@ import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMess
 
 import br.com.easyrh.domain.service.user.edit.IEditUserService;
 import br.com.easyrh.shared.response.user.ResponseUserRegisterJson;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -20,6 +21,7 @@ import br.com.easyrh.shared.request.user.RequestUserEditJson;
 @Service
 public class EditUserUseCase implements IEditUserUseCase {
   private final EditUserValidator _validator;
+
   private final IEditUserService _editUserService;
 
   @Autowired
@@ -47,7 +49,6 @@ public class EditUserUseCase implements IEditUserUseCase {
       throw new ErrorOnValidationException(message);
     }
   }
-
   private Errors BuildValidator(RequestUserEditJson request)
   {
     Errors errors = new BeanPropertyBindingResult(request, "request");
@@ -56,4 +57,33 @@ public class EditUserUseCase implements IEditUserUseCase {
 
     return errors;
   }
-}
+
+  private void SaveUser(RequestUserEditJson request) {
+
+    var newUserEntity = BuildUserEntity(request);
+
+    var oldUserEntity = _readRepository.FindByCPF(newUserEntity.getCpf());
+
+    newUserEntity.setId(oldUserEntity.getId());
+    newUserEntity.getAddress().setId(oldUserEntity.getAddress().getId());
+
+    _writeRepository.SaveUser(newUserEntity);
+  }
+
+  private User BuildUserEntity(RequestUserEditJson request) {
+    var userEntity = new User(request);
+
+    userEntity.setRole(GetRole(request));
+
+    userEntity.setPassword(GetEncryptedPassword(request.Password()));
+
+    return userEntity;
+  }
+
+  private String GetEncryptedPassword(String password) {
+    return _passwordEncrypter.Encrypt(password);
+  }
+
+  private Role GetRole(RequestUserEditJson request) {
+    return request.Role() == true ? Role.ADMIN : Role.USER;
+  }

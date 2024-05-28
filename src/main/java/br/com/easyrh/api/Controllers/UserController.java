@@ -37,6 +37,7 @@ public class UserController {
   @Autowired
   private final IRetrieveUserUseCase _retrieveUserUseCase;
 
+
   public UserController(IRegisterUserUseCase registerUserUseCase,
                         IEditUserUseCase editUserUseCase,
                         IRetrieveUserUseCase retrieveUserUseCase)
@@ -67,6 +68,7 @@ public class UserController {
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
+
   public ResponseEntity<ResponseUserRegisterJson> Edit(@RequestBody @Validated RequestUserEditJson request)
   {
     var response = _editUserUseCase.Execute(request);
