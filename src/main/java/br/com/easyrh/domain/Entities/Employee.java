@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="departament")
-public class Departament extends ClassBase
+@Table(name="employee")
+public class Employee extends ClassBase
 {
 
 }

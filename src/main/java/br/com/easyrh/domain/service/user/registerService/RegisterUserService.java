@@ -1,5 +1,9 @@
 package br.com.easyrh.domain.service.user.registerService;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.easyrh.domain.Entities.User;
 import br.com.easyrh.domain.Enum.Role;
 import br.com.easyrh.domain.repositories.user.readOnly.IUserReadOnlyRepository;
@@ -9,88 +13,77 @@ import br.com.easyrh.infrastructure.security.jwt.IGenereteToken;
 import br.com.easyrh.infrastructure.security.passwordEncrypter.IPasswordEncrypter;
 import br.com.easyrh.shared.request.user.RequestUserRegisterJson;
 import br.com.easyrh.shared.response.user.ResponseUserRegisterJson;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
-public class RegisterUserService implements IRegisterUserSerivce
-{
-    private final IPasswordEncrypter _passwordEncrypter;
-    private final IGenereteToken _genereteToken;
-    private final IUserReadOnlyRepository _readOnlyRepository;
-    private final IUserWriteOnlyRepository _writeOnlyRepository;
-    private final ModelMapper _mapper;
+public class RegisterUserService implements IRegisterUserSerivce {
+  private final IPasswordEncrypter _passwordEncrypter;
+  private final IGenereteToken _genereteToken;
+  private final IUserReadOnlyRepository _readOnlyRepository;
+  private final IUserWriteOnlyRepository _writeOnlyRepository;
+  private final ModelMapper _mapper;
 
-    @Autowired
-    public RegisterUserService(IPasswordEncrypter passwordEncrypter,
-                               IGenereteToken genereteToken,
-                               IUserReadOnlyRepository readOnlyRepository,
-                               IUserWriteOnlyRepository writeOnlyRepository,
-                               ModelMapper mapper) {
-        _passwordEncrypter = passwordEncrypter;
-        _genereteToken = genereteToken;
-        _readOnlyRepository = readOnlyRepository;
-        _writeOnlyRepository = writeOnlyRepository;
-        _mapper = mapper;
+  @Autowired
+  public RegisterUserService(IPasswordEncrypter passwordEncrypter,
+      IGenereteToken genereteToken,
+      IUserReadOnlyRepository readOnlyRepository,
+      IUserWriteOnlyRepository writeOnlyRepository,
+      ModelMapper mapper) {
+    _passwordEncrypter = passwordEncrypter;
+    _genereteToken = genereteToken;
+    _readOnlyRepository = readOnlyRepository;
+    _writeOnlyRepository = writeOnlyRepository;
+    _mapper = mapper;
+  }
+
+  @Override
+  public ResponseUserRegisterJson RegisterUser(RequestUserRegisterJson request) {
+    ApplyValidationRules(request.getEmail(), request.getCpf());
+
+    return SaveUser(request);
+  }
+
+  private void ApplyValidationRules(String email, String cpf) {
+    if (EmailOrCpfAlreadyExistis(email, cpf)) {
+      throw new ErrorOnValidationException("User already exists.");
     }
+  }
 
-    @Override
-    public ResponseUserRegisterJson RegisterUser(RequestUserRegisterJson request)
-    {
-        ApplyValidationRules(request.getEmail(), request.getPassword());
+  private boolean EmailOrCpfAlreadyExistis(String emailRegister, String cpf) {
+    return _readOnlyRepository.ExistUserByEmailOrCpf(emailRegister, cpf);
+  }
 
-        return  SaveUser(request);
-    }
+  private ResponseUserRegisterJson SaveUser(RequestUserRegisterJson request) {
+    var user = BuildUserEntity(request);
 
-    private void ApplyValidationRules(String email, String cpf)
-    {
-        if(EmailOrCpfAlreadyExistis(email, cpf))
-        {
-            throw new ErrorOnValidationException("User already exists.");
-        }
-    }
+    PersistUser(user);
 
-    private boolean EmailOrCpfAlreadyExistis(String emailRegister, String cpf)
-    {
-        return _readOnlyRepository.ExisteUserByEmailOrCpf(emailRegister, cpf);
-    }
+    return BuildResponse(user);
+  }
 
-    private ResponseUserRegisterJson SaveUser(RequestUserRegisterJson request)
-    {
-        var user = BuildUserEntity(request);
+  private User BuildUserEntity(RequestUserRegisterJson request) {
+    // var user = _mapper.map(request, User.class);
+    var user = new User(request);
 
-        PersistUser(user);
+    user.setRole(GetRole(request.getRole()));
 
-        return BuildResponse(user);
-    }
+    user.setPassword(_passwordEncrypter.Encrypt(request.getPassword()));
 
-    private User BuildUserEntity(RequestUserRegisterJson request)
-    {
-        var user = _mapper.map(request, User.class);
+    return user;
+  }
 
-        user.setRole(GetRole(request.getRole()));
+  private Role GetRole(boolean role) {
+    return role ? Role.ADMIN : Role.USER;
+  }
 
-        user.setPassword(_passwordEncrypter.Encrypt(request.getPassword()));
+  private void PersistUser(User user) {
+    _writeOnlyRepository.SaveUser(user);
+  }
 
-        return user;
-    }
+  private ResponseUserRegisterJson BuildResponse(User user) {
+    var response = _mapper.map(user, ResponseUserRegisterJson.class);
 
-    private Role GetRole(boolean role) {
-        return role ? Role.ADMIN : Role.USER;
-    }
+    response.setAccessToken(_genereteToken.GenereteToken(user.getGuid_Identifier()));
 
-    private void PersistUser(User user)
-    {
-        _writeOnlyRepository.SaveUser(user);
-    }
-
-    private ResponseUserRegisterJson BuildResponse(User user)
-    {
-        var response = _mapper.map(user, ResponseUserRegisterJson.class);
-
-        response.setAccessToken(_genereteToken.GenereteToken(user.getGuid_Identifier()));
-
-        return response;
-    }
+    return response;
+  }
 }
