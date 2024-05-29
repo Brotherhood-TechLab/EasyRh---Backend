@@ -12,10 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-@Entity // Sempre usar o jarkart persistence - Indidcando que isso representa uma tabela
-        // do banco de dados
+@Entity // Sempre usar o jarkart persistence - Indidcando que isso representa uma tabela do banco de dados
 @Table(name = "enterprise") // Nome da tabela no banco
-public class Enterprise extends ClassBase {
+public class Enterprise extends ClassBase
+{
   private static final long serialVersionUID = 1L;
 
   @Column(name = "name", nullable = false, length = 100)

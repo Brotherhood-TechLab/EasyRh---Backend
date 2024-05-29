@@ -26,4 +26,11 @@ public class UserReadOnlyRepository implements IUserReadOnlyRepository {
     return _userRepository.findByCpf(cpf).map(User.class::cast)
         .orElseThrow(() -> new ErrorOnQueryException("Usuário não cadastrado"));
   }
+
+  @Override
+  public boolean EmailAlreadyRegistred(String email)
+  {
+    var user = _userRepository.findByEmail(email);
+    return user != null;
+  }
 }

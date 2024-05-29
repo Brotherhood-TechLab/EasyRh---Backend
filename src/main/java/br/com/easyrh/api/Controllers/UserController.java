@@ -37,8 +37,11 @@ public class UserController {
   @Autowired
   private final IRetrieveUserUseCase _retrieveUserUseCase;
 
-  public UserController(IRegisterUserUseCase registerUserUseCase, IEditUserUseCase editUserUseCase,
-      IRetrieveUserUseCase retrieveUserUseCase) {
+
+  public UserController(IRegisterUserUseCase registerUserUseCase,
+                        IEditUserUseCase editUserUseCase,
+                        IRetrieveUserUseCase retrieveUserUseCase)
+  {
     this._registerUserUseCase = registerUserUseCase;
     this._editUserUseCase = editUserUseCase;
     this._retrieveUserUseCase = retrieveUserUseCase;
@@ -65,9 +68,11 @@ public class UserController {
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content),
       @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
   })
-  public ResponseEntity<String> Edit(@RequestBody @Validated RequestUserEditJson request) {
-    _editUserUseCase.Execute(request);
-    return ResponseEntity.ok("Successful operation");
+
+  public ResponseEntity<ResponseUserRegisterJson> Edit(@RequestBody @Validated RequestUserEditJson request)
+  {
+    var response = _editUserUseCase.Execute(request);
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping("/get")

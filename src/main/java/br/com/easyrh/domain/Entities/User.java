@@ -156,7 +156,8 @@ public class User extends ClassBase implements UserDetails {
   }
 
   @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
+  public Collection<? extends GrantedAuthority> getAuthorities()
+  {
     // Fazendo a validação do role
     if (this.Role == br.com.easyrh.domain.Enum.Role.ADMIN)
       return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -189,8 +190,9 @@ public class User extends ClassBase implements UserDetails {
     return true;
   }
 
-  public ResponseUserRepresentation toDTO() {
-    return new ResponseUserRepresentation(Name, Email, Password, Cpf, Dateofbirth, Gender, Phone, "PREENCHER",
+  public ResponseUserRepresentation toDTO()
+  {
+    return new ResponseUserRepresentation(Name, Email, Cpf, Dateofbirth, Gender, Phone, "PREENCHER",
         Role.getBoolRole(), Address.toDTO());
   }
 }

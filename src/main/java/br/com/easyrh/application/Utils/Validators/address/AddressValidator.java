@@ -26,31 +26,31 @@ public class AddressValidator implements Validator {
   public void validate(Object target, Errors errors) {
     RequestAddressRegisterJson address = (RequestAddressRegisterJson) target;
 
-    if (IsNullOrEmpty(address.number)) {
+    if (IsNullOrEmpty(address.getNumber())) {
       errors.rejectValue("number", "number.empty", "O número deve ser informado");
     }
 
-    if (IsNullOrEmpty(address.complement)) {
+    if (IsNullOrEmpty(address.getComplement())) {
       errors.rejectValue("complement", "complement.empty", "O complemento deve ser informado");
     }
 
-    if (IsNullOrEmpty(address.neighborhood)) {
+    if (IsNullOrEmpty(address.getNeighborhood())) {
       errors.rejectValue("neighborhood", "neighborhood.empty", "O bairro deve ser informado");
     }
 
-    if (IsNullOrEmpty(address.city)) {
+    if (IsNullOrEmpty(address.getCity())) {
       errors.rejectValue("city", "city.empty", "A cidade deve ser informada");
     }
 
-    if (IsNullOrEmpty(address.state)) {
+    if (IsNullOrEmpty(address.getState())) {
       errors.rejectValue("state", "state.empty", "O estado deve ser informado");
     }
 
-    if (IsNullOrEmpty(address.country)) {
+    if (IsNullOrEmpty(address.getCountry())) {
       errors.rejectValue("country", "country.empty", "O país deve ser informado");
     }
 
-    if (IsNullOrEmpty(address.street)) {
+    if (IsNullOrEmpty(address.getStreet())) {
       errors.rejectValue("street", "street.empty", "O logradouro deve ser informado");
     }
 

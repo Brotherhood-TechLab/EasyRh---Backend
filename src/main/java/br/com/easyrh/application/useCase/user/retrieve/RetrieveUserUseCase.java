@@ -7,7 +7,8 @@ import br.com.easyrh.domain.repositories.user.readOnly.IUserReadOnlyRepository;
 import br.com.easyrh.shared.response.user.ResponseUserRepresentation;
 
 @Service
-public class RetrieveUserUseCase implements IRetrieveUserUseCase {
+public class RetrieveUserUseCase implements IRetrieveUserUseCase
+{
   private final IUserReadOnlyRepository _readOnlyRepository;
 
   @Autowired
@@ -16,7 +17,8 @@ public class RetrieveUserUseCase implements IRetrieveUserUseCase {
   }
 
   @Override
-  public ResponseUserRepresentation Execute(String cpf) {
+  public ResponseUserRepresentation Execute(String cpf)
+  {
     var user = _readOnlyRepository.FindByCPF(cpf);
     return user.toDTO();
   }

@@ -6,14 +6,14 @@ import java.util.Objects;
 public class RequestAddressRegisterJson implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  public String street;
-  public String number;
-  public String neighborhood;
-  public String complement;
-  public String city;
-  public String state;
-  public String zipCode;
-  public String country;
+  private String street;
+  private String number;
+  private String neighborhood;
+  private String complement;
+  private String city;
+  private String state;
+  private String zipCode;
+  private String country;
 
   public RequestAddressRegisterJson(String street, String number, String neighborhood, String complement, String city,
       String state,

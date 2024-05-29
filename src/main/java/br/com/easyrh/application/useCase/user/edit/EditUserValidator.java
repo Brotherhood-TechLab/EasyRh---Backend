@@ -41,17 +41,12 @@ public class EditUserValidator implements Validator {
   public void validate(Object target, Errors errors) {
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "O nome deve ser preenchido");
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty", "O email deve ser preenchido");
-    ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "A senha deve ser preenchida");
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "phone.empty", "O telefone deve ser preenchido");
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cpf", "cpf.empty", "O CPF deve ser preenchido");
     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "role", "role.empty", "O cargo deve ser preenchido");
 
     RequestUserEditJson user = (RequestUserEditJson) target;
     RequestAddressRegisterJson address = user.Address();
-
-    if (!_passwordValidator.IsValid(user.Password()))
-      errors.rejectValue("password", "password.invalid",
-          "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número, um caractere especial e deve ter pelo menos 8 caracteres");
 
     if (!_phoneNumberValidator.IsValid(user.Phone()))
       errors.rejectValue("phone", "phone.invalid", "O telefone informado é inválido");
