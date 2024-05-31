@@ -48,7 +48,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
       "/swagger-ui/**",
       // other public endpoints of your API may be appended to this array
       "/api/auth/v1/login",
-      "/api/user/v1/**"
+      "/api/user/v1/**",
+      "/api/enterprise/v1/**",
+      "/api/department/v1/**"
   };
 
   // Define a configuração de segurança

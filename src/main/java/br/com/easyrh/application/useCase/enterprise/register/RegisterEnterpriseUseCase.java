@@ -1,15 +1,14 @@
 package br.com.easyrh.application.useCase.enterprise.register;
 
-import br.com.easyrh.domain.service.enterprise.register.IRegisterEnterpriseService;
+import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMessage.GetErrorMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static br.com.easyrh.application.Utils.errorMessageOnValidation.ErrorMessage.GetErrorMessage;
-import br.com.easyrh.domain.Entities.Enterprise;
+import br.com.easyrh.domain.service.enterprise.register.IRegisterEnterpriseService;
 import br.com.easyrh.exceptions.ErrorOnValidationException;
-import br.com.easyrh.infrastructure.repository.enterpriseRepository.IEnterpriseRepository;
 import br.com.easyrh.shared.request.enterprise.RequestEnterpriseRegisterJson;
 import br.com.easyrh.shared.response.enterprise.ResponseEnterpriseRegisterJson;
 
@@ -26,22 +25,19 @@ public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase {
   private IRegisterEnterpriseService _registerEnterpriseService;
 
   public RegisterEnterpriseUseCase(RegisterEnterpriseValidator registerEnterpriseValidator,
-                                   IRegisterEnterpriseService registerEnterpriseService)
-  {
+      IRegisterEnterpriseService registerEnterpriseService) {
     _registerEnterpriseValidator = registerEnterpriseValidator;
     _registerEnterpriseService = registerEnterpriseService;
   }
 
   @Override
-  public ResponseEnterpriseRegisterJson Execute(RequestEnterpriseRegisterJson request)
-  {
+  public ResponseEnterpriseRegisterJson Execute(RequestEnterpriseRegisterJson request) {
     ValidateRequest(request);
 
     return _registerEnterpriseService.RegisterEnterprise(request);
   }
 
-  private void ValidateRequest(RequestEnterpriseRegisterJson enterprise)
-  {
+  private void ValidateRequest(RequestEnterpriseRegisterJson enterprise) {
     var result = BuildValidate(enterprise);
 
     if (result.hasErrors()) {
@@ -50,8 +46,7 @@ public class RegisterEnterpriseUseCase implements IRegisterEnterpriseUseCase {
     }
   }
 
-  private Errors BuildValidate(RequestEnterpriseRegisterJson enterprise)
-  {
+  private Errors BuildValidate(RequestEnterpriseRegisterJson enterprise) {
     Errors errors = new BeanPropertyBindingResult(enterprise, "enterprise");
 
     _registerEnterpriseValidator.validate(enterprise, errors);

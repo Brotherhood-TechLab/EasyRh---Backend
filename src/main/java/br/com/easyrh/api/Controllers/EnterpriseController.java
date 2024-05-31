@@ -21,11 +21,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("api/enterprise/v1")
 @Tag(name = "Enterprise", description = "Endpoints for Enterprise management")
-public class EnterpriseController
-{
+public class EnterpriseController {
+  @Autowired
   private final IRegisterEnterpriseUseCase _registerEnterpriseUseCase;
 
-  @Autowired
   public EnterpriseController(IRegisterEnterpriseUseCase registerEnterpriseUseCase) {
     this._registerEnterpriseUseCase = registerEnterpriseUseCase;
   }
