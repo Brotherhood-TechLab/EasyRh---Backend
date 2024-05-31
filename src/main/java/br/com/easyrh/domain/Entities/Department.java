@@ -1,7 +1,6 @@
 package br.com.easyrh.domain.Entities;
 
 import br.com.easyrh.domain.Entities.Base.ClassBase;
-import ch.qos.logback.classic.Level;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -15,19 +14,17 @@ public class Department extends ClassBase {
 
   private String Description;
 
-  private Level Level;
-
   @ManyToOne(cascade = CascadeType.ALL)
   private Enterprise Enterprise;
 
-  Department() {
+  public Department() {
 
   }
 
-  Department(String name, String description, Level level, Enterprise enterprise) {
+  public Department(String name, String description, Enterprise enterprise) {
+    super();
     this.Name = name;
     this.Description = description;
-    this.Level = level;
     this.Enterprise = enterprise;
   }
 
@@ -45,14 +42,6 @@ public class Department extends ClassBase {
 
   public void setDescription(String description) {
     Description = description;
-  }
-
-  public Level getLevel() {
-    return Level;
-  }
-
-  public void setLevel(Level level) {
-    Level = level;
   }
 
   public Enterprise getEnterprise() {
