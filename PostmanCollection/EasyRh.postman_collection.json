@@ -1,58 +1,14 @@
 {
 	"info": {
-		"_postman_id": "8f18a6c7-6bfc-4b13-93f6-a20bc82c8c23",
+		"_postman_id": "e82ef375-d263-4310-a48e-9a3c5c86829e",
 		"name": "EasyRh",
 		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) in \"Tests\" to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "19069505"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34865647"
 	},
 	"item": [
 		{
-			"name": "User",
-			"item": [
-				{
-					"name": "User-register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Fulano de Tal\",\r\n  \"email\": \"fulano@example.com\",\r\n  \"password\": \"Amadeu123@\",\r\n  \"cpf\": \"123.456.789-00\",\r\n  \"dateofbirth\": \"1980-01-01\",\r\n  \"gender\": \"M\",\r\n  \"phone\": \"(79) 98844-5482\",\r\n  \"role\": true,\r\n  \"enterpriseNumber\": \"'73297597'\",\r\n  \"address\": {\r\n    \"street\": \"Rua Exemplo\",\r\n    \"complement\": \"Teste teste teste\",\r\n    \"number\": \"123\",\r\n    \"neighborhood\": \"Bairro Exemplo\",\r\n    \"city\": \"Cidade Exemplo\",\r\n    \"state\": \"SE\",\r\n    \"zipCode\": \"12345-678\",\r\n    \"country\": \"BRA\"\r\n  }\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/user/register"
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"fulano@example.com\",\r\n    \"password\":\"Amadeu123@\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/auth/login"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Enterprise-register",
+			"name": "RegisterEnterprise",
 			"event": [
 				{
 					"listen": "test",
@@ -83,44 +39,132 @@
 				}
 			],
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJFYXN5UkgtQVBJIiwic3ViIjoiZnVsYW5vQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1NDU1NDUxfQ.qcO0sbFPs4UFe8j57-eXrfnga_6FLC1Zf4Q2qM3ds6c"
-					}
-				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"{{$randomCompanyName}}\",\n  \"cnpj\": \"12345678912345\",\n  \"phoneNumber\": \"(11) 98765-4321\",\n  \"email\": \"{{$randomEmail}}\",\n  \"idNumber\": \"{{$randomBankAccount}}\",\n  \"address\": {\n    \"street\": \"{{$randomStreetName}}\",\n    \"number\": \"{{$randomInt}}\",\n    \"neighborhood\": \"{{$randomStreetName}}\",\n    \"complement\": \"{{$randomLoremSentence}}\",\n    \"city\": \"{{$randomCity}}\",\n    \"state\": \"SP\",\n    \"zipCode\": \"12345-678\",\n    \"country\": \"BRA\"\n    },\n  \"logoImage\": \"logo.png\"\n}\n",
+					"raw": "{\n    \"name\": \"{{$randomCompanyName}}\",\n    \"cnpj\": \"12345678912345\",\n    \"phoneNumber\": \"(11) 98765-4321\",\n    \"email\": \"{{$randomEmail}}\",\n    \"idNumber\": \"{{$randomBankAccount}}\",\n    \"address\": {\n        \"street\": \"{{$randomStreetName}}\",\n        \"number\": \"{{$randomInt}}\",\n        \"neighborhood\": \"{{$randomStreetName}}\",\n        \"complement\": \"{{$randomLoremSentence}}\",\n        \"city\": \"{{$randomCity}}\",\n        \"state\": \"SP\",\n        \"zipCode\": \"12345-678\",\n        \"country\": \"BRA\"\n    },\n    \"logoImage\": \"logo.png\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "{{base_url}}/enterprise/register",
+				"url": {
+					"raw": "{{base_enterprise_url}}/register",
+					"host": [
+						"{{base_enterprise_url}}"
+					],
+					"path": [
+						"register"
+					]
+				},
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 			},
 			"response": []
 		},
 		{
-			"name": "{{base_url}}/enterprise/getData",
+			"name": "RegisterUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"Meupiroc@0\",\n    \"cpf\": \"123.456.789-01\",\n    \"dateofbirth\": \"1980-01-01\",\n    \"gender\": \"M\",\n    \"phone\": \"(79) 98844-5482\",\n    \"role\": true,\n    \"enterpriseNumber\": \"'73297597'\",\n    \"address\": {\n        \"street\": \"Rua Exemplo\",\n        \"complement\": \"Teste teste teste\",\n        \"number\": \"123\",\n        \"neighborhood\": \"Bairro Exemplo\",\n        \"city\": \"Cidade Exemplo\",\n        \"state\": \"SE\",\n        \"zipCode\": \"12345-678\",\n        \"country\": \"BRA\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_user_url}}/register",
+					"host": [
+						"{{base_user_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"Meupiroc@0\",\n    \"cpf\": \"123.456.789-01\",\n    \"dateofbirth\": \"1980-01-01\",\n    \"gender\": \"M\",\n    \"phone\": \"(79) 98844-5482\",\n    \"role\": true,\n    \"enterpriseNumber\": \"'73297597'\",\n    \"address\": {\n        \"street\": \"Rua Exemplo\",\n        \"complement\": \"Teste teste teste\",\n        \"number\": \"123\",\n        \"neighborhood\": \"Bairro Exemplo\",\n        \"city\": \"Cidade Exemplo\",\n        \"state\": \"SE\",\n        \"zipCode\": \"12345-678\",\n        \"country\": \"BRA\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_user_url}}/edit",
+					"host": [
+						"{{base_user_url}}"
+					],
+					"path": [
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveUser",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{base_url}}/enterprise/getData"
+				"url": {
+					"raw": "{{base_user_url}}/get?cpf=123.456.789-01",
+					"host": [
+						"{{base_user_url}}"
+					],
+					"path": [
+						"get"
+					],
+					"query": [
+						{
+							"key": "cpf",
+							"value": "123.456.789-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RegisterDepartment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{$randomDepartment}}\",\n    \"description\": \"{{$randomLoremSentence}}\",\n    \"enterprise_id\": \"91059118\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_department_url}}/register",
+					"host": [
+						"{{base_department_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
 			},
 			"response": []
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": {
-			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJFYXN5UkgtQVBJIiwic3ViIjoiZnVsYW5vQGV4YW1wbGUuY29tIiwiZXhwIjoxNzE1NDU0OTUzfQ.Nv5ZcU8mWRxkJAZDt8RGIgevhrgWgxkH8aNZxuZaoQk"
-		}
-	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -135,6 +179,7 @@
 			"listen": "test",
 			"script": {
 				"type": "text/javascript",
+				"packages": {},
 				"exec": [
 					""
 				]
@@ -149,6 +194,21 @@
 		{
 			"key": "base_url",
 			"value": "http://localhost:8080"
+		},
+		{
+			"key": "base_user_url",
+			"value": "http://localhost:8080/api/user/v1",
+			"type": "string"
+		},
+		{
+			"key": "base_enterprise_url",
+			"value": "http://localhost:8080/api/enterprise/v1",
+			"type": "string"
+		},
+		{
+			"key": "base_department_url",
+			"value": "http://localhost:8080/api/department/v1",
+			"type": "string"
 		}
 	]
 }

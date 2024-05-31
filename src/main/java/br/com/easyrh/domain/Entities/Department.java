@@ -1,6 +1,7 @@
 package br.com.easyrh.domain.Entities;
 
 import br.com.easyrh.domain.Entities.Base.ClassBase;
+import br.com.easyrh.shared.request.department.RequestDepartmentRegisterJson;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -26,6 +27,12 @@ public class Department extends ClassBase {
     this.Name = name;
     this.Description = description;
     this.Enterprise = enterprise;
+  }
+
+  public Department(RequestDepartmentRegisterJson request) {
+    super();
+    this.Name = request.Name();
+    this.Description = request.Description();
   }
 
   public String getName() {
